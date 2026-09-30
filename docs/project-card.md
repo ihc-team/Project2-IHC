@@ -1,4 +1,4 @@
-# docs/project-cajjjmd
+# docs/project-card
 
 Aplicación elegida: Planazo  
 Segunda opción: UniSport  
