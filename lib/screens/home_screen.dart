@@ -35,7 +35,7 @@ return Scaffold(
               const SizedBox(height: 12),
 
               const Text(
-                ' una aplicacion para Presupuesto Estudiantil!',
+                'una aplicacion para Presupuesto Estudiantil!',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
@@ -45,10 +45,10 @@ return Scaffold(
 
               const Spacer(), // Deja un espacio flexible antes de los botones
 
-              // Botón 1: Iniciar Sesión
+              // Boton 1 Iniciar Sesion
               ElevatedButton(
                 onPressed: () {
-                  // Navegación hacia la Pantalla de Login
+                  // Navegacion hacia la Pantalla de Login
                   context.push('/login');
                 },
                 style: ElevatedButton.styleFrom(
@@ -59,15 +59,15 @@ return Scaffold(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text('Iniciar Sesión', style: TextStyle(fontSize: 16)),
+                child: const Text('Iniciar Sesion', style: TextStyle(fontSize: 16)),
               ),
 
               const SizedBox(height: 16),
 
-              // Botón 2: Registro
+              // Boton 2: Registro
               OutlinedButton(
                 onPressed: () {
-                  // Navegación hacia la Pantalla de Registro
+                  // Navegacion hacia la Pantalla de Registro
                   context.push('/register');
                 },
                 style: OutlinedButton.styleFrom(

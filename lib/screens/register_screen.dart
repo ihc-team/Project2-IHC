@@ -12,7 +12,7 @@ class RegisterScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Crear Cuenta')),
       body: const Center(
         child: Text(
-          'Aqui ira el formulario de Registro',
+          'Aqui va el formulario de Registro',
           style: TextStyle(fontSize: 18),
         ),
       ),
