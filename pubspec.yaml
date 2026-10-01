@@ -38,6 +38,7 @@ dependencies:
   supabase_flutter: ^2.15.4
   flutter_dotenv: ^6.0.1
   http: ^1.6.0
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +62,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/
     - .env
 
   # To add assets to your application, add an assets section, like this:
@@ -93,3 +95,22 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+
+# dart run flutter_launcher_icons
+flutter_launcher_icons:
+  image_path: "assets/icons/v1/icon_no_background.png" 
+  remove_alpha_ios: true
+
+  android: true
+  ios: true
+  web:
+    image_path: "assets/icons/v1/icon.png" 
+    generate: true
+  windows: 
+    generate: true
+  macos:
+    generate: true
+    image_path: "assets/icons/v1/icon_macos.png" 
+  linux:
+    generate: true
