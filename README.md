@@ -41,7 +41,7 @@ El proyecto usa variables de entorno para las credenciales de Supabase. Estas **
 
 ```
 SUPABASE_URL=https://xxxxxxxxxx.supabase.co
-SUPABASE_ANON_KEY=eyJxxxxxxxxxxxxxxxxxx
+SUPABASE_PUBLISHABLE_KEY=sb_publishable_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 Sin este archivo, la app no va a iniciar.
@@ -52,8 +52,8 @@ Sin este archivo, la app no va a iniciar.
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/tu-usuario/Presupuesto-Estudiantil.git
-cd Presupuesto-Estudiantil
+git clone https://github.com/ihc-team/Project2-IHC.git
+cd Project2-IHC
 
 # 2. Instalar dependencias
 flutter pub get
