@@ -25,9 +25,11 @@ class _LoginScreenState extends State<LoginScreen> {
   //Variable para controlar el estado de carga cuando esta cargando
   bool _isLoading = false;
 
+  // Mostrar password
+  bool _obscureText = true;
+
   //Metodo para manejar el inicio de sesion
   Future<void> _handleLogin() async {
-
     //Sirve para validar que el formulario sea correcto
     if (!_formKey.currentState!.validate()) return;
     //Cambia el estado a cargando
@@ -45,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) {
         context.go('/movements');
       }
-      
+
       //Maneja los errores
     } on AuthException catch (e) {
       if (mounted) {
@@ -78,17 +80,32 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Correo electrónico'),
-                validator: (val) =>
-                    val == null || val.isEmpty ? 'Ingresa tu correo' : null,
+                decoration: const InputDecoration(
+                  labelText: 'Correo electrónico',
+                ),
+                validator:
+                    (val) =>
+                        val == null || val.isEmpty ? 'Ingresa tu correo' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: 'Contraseña'),
-                validator: (val) =>
-                    val == null || val.length < 6 ? 'Mínimo 6 caracteres' : null,
+                obscureText: _obscureText,
+                decoration: InputDecoration(
+                  labelText: 'Contraseña',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed:
+                        () => setState(() => _obscureText = !_obscureText),
+                  ),
+                ),
+                validator:
+                    (val) =>
+                        val == null || val.length < 6
+                            ? 'Mínimo 6 caracteres'
+                            : null,
               ),
 
               const SizedBox(height: 16),
@@ -96,14 +113,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () => context.push('/reset-password'),
                 child: const Text('¿Olvidaste tu contraseña?'),
               ),
-              
+
               const SizedBox(height: 24),
               _isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
-                      onPressed: _handleLogin,
-                      child: const Text('Iniciar Sesión'),
-                    ),
+                    onPressed: _handleLogin,
+                    child: const Text('Iniciar Sesión'),
+                  ),
             ],
           ),
         ),

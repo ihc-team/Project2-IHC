@@ -37,7 +37,11 @@ class MovementsScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.account_circle, size: 80, color: Colors.deepPurple),
+              const Icon(
+                Icons.account_circle,
+                size: 80,
+                color: Colors.deepPurple,
+              ),
               const SizedBox(height: 16),
               const Text(
                 '¡Bienvenido!',
@@ -58,7 +62,6 @@ class MovementsScreen extends StatelessWidget {
                 icon: const Icon(Icons.key),
                 label: const Text('Cambiar Contraseña'),
               ),
-            
             ],
           ),
         ),

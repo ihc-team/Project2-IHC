@@ -53,6 +53,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     super.dispose();
   }
 
+  bool _showPassword1 = false;
+  // bool _showPassword2 = false;
+
   // Este metodo devuelve el widget a mostrar
   // este widget es la pantalla con un formulario para cambiar la contraseña
   @override
@@ -68,21 +71,51 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             children: [
               TextFormField(
                 controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
+                obscureText: _showPassword1,
+                decoration: InputDecoration(
                   labelText: 'Nueva Contraseña',
                   hintText: 'Ingresa tu nueva clave',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _showPassword1 ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed:
+                        () => setState(() => _showPassword1 = !_showPassword1),
+                  ),
                 ),
-                validator: (val) =>
-                    val == null || val.length < 6 ? 'Mínimo 6 caracteres' : null,
+                validator:
+                    (val) =>
+                        val == null || val.length < 6
+                            ? 'Mínimo 6 caracteres'
+                            : null,
               ),
+              // TextFormField(
+              //   controller: _passwordController,
+              //   obscureText: _showPassword2,
+              //   decoration: InputDecoration(
+              //     labelText: 'Confirmar Contraseña',
+              //     hintText: 'Ingresa la misma contraseña',
+              //     suffixIcon: IconButton(
+              //       icon: Icon(
+              //         _showPassword2 ? Icons.visibility_off : Icons.visibility,
+              //       ),
+              //       onPressed:
+              //           () => setState(() => _showPassword2 = !_showPassword2),
+              //     ),
+              //   ),
+              //   validator:
+              //       (val) =>
+              //           val == null || val.length < 6
+              //               ? 'Mínimo 6 caracteres'
+              //               : null,
+              // ),
               const SizedBox(height: 24),
               _isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
-                      onPressed: _handleChangePassword,
-                      child: const Text('Actualizar Contraseña'),
-                    ),
+                    onPressed: _handleChangePassword,
+                    child: const Text('Actualizar Contraseña'),
+                  ),
             ],
           ),
         ),

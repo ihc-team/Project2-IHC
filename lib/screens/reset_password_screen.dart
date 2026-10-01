@@ -73,16 +73,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   labelText: 'Correo electronico',
                   hintText: 'Ingresa tu correo registrado',
                 ),
-                validator: (val) =>
-                    val == null || val.isEmpty ? 'Ingresa tu correo' : null,
+                validator:
+                    (val) =>
+                        val == null || val.isEmpty ? 'Ingresa tu correo' : null,
               ),
               const SizedBox(height: 24),
               _isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
-                      onPressed: _handleResetPassword,
-                      child: const Text('Enviar Solicitud'),
-                    ),
+                    onPressed: _handleResetPassword,
+                    child: const Text('Enviar Solicitud'),
+                  ),
             ],
           ),
         ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-
-
+import '../env.dart';
 
 // Pantalla de bienvenida, se mostrara al entrar a la aplicacion
 class HomeScreen extends StatelessWidget {
@@ -10,11 +8,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-return Scaffold(
-    //El "SafeArea" ayuda a que el contenido se muestre correctamente en cualquier dispositivo
-    //sin tapar ningun elemento importante de la pantalla
+    return Scaffold(
+      //El "SafeArea" ayuda a que el contenido se muestre correctamente en cualquier dispositivo
+      //sin tapar ningun elemento importante de la pantalla
       body: SafeArea(
-
         // El "Padding" se utiliza para agregar espacio alrededor del contenido
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -24,27 +21,22 @@ return Scaffold(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Mensaje de Bienvenida
-              const Text(
-                '¡Bienvenido a tu StudShield',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
+              Text(
+                '¡Bienvenido a tu ${Env.appName}',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
 
+              Image.asset('assets/icons/v1/icon_no_background.png', width: 150),
+
               const Text(
                 'una aplicacion para Presupuesto Estudiantil!',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
 
               const Spacer(), // Deja un espacio flexible antes de los botones
-
               // Boton 1 Iniciar Sesion
               ElevatedButton(
                 onPressed: () {
@@ -59,7 +51,10 @@ return Scaffold(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text('Iniciar Sesion', style: TextStyle(fontSize: 16)),
+                child: const Text(
+                  'Iniciar Sesion',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
 
               const SizedBox(height: 16),
@@ -91,4 +86,3 @@ return Scaffold(
     );
   }
 }
-

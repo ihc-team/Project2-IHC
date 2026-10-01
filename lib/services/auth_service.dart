@@ -10,10 +10,7 @@ class AuthService {
     required String password,
   }) async {
     // Aqui se envian los datos para el registro
-    return await _supabase.auth.signUp(
-      email: email,
-      password: password,
-    );
+    return await _supabase.auth.signUp(email: email, password: password);
   }
 
   //Este metodo sirve para iniciar sesion
@@ -46,6 +43,4 @@ class AuthService {
   Future<void> resetPasswordForEmail(String email) async {
     await _supabase.auth.resetPasswordForEmail(email);
   }
-
-
 }

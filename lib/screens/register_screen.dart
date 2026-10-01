@@ -15,6 +15,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _authService = AuthService();
   bool _isLoading = false;
+  bool _showPassword = false;
 
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
@@ -63,23 +64,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Correo electrónico'),
-                validator: (val) => val == null || val.isEmpty ? 'Ingresa tu correo' : null,
+                decoration: const InputDecoration(
+                  labelText: 'Correo electrónico',
+                ),
+                validator:
+                    (val) =>
+                        val == null || val.isEmpty ? 'Ingresa tu correo' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: 'Contraseña'),
-                validator: (val) => val == null || val.length < 6 ? 'Mínimo 6 caracteres' : null,
+                obscureText: _showPassword,
+                decoration: InputDecoration(
+                  labelText: 'Contraseña',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _showPassword ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed:
+                        () => setState(() => _showPassword = !_showPassword),
+                  ),
+                ),
+                validator:
+                    (val) =>
+                        val == null || val.length < 6
+                            ? 'Mínimo 6 caracteres'
+                            : null,
               ),
               const SizedBox(height: 24),
               _isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
-                      onPressed: _handleRegister,
-                      child: const Text('Registrarse'),
-                    ),
+                    onPressed: _handleRegister,
+                    child: const Text('Registrarse'),
+                  ),
             ],
           ),
         ),

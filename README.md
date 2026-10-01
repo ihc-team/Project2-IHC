@@ -40,6 +40,7 @@ El proyecto usa variables de entorno para las credenciales de Supabase. Estas **
 3. El archivo debe tener este formato:
 
 ```
+APP_NAME='Presupuesto Estudiantil'
 SUPABASE_URL=https://xxxxxxxxxx.supabase.co
 SUPABASE_PUBLISHABLE_KEY=sb_publishable_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
