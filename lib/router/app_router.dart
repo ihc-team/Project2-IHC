@@ -5,6 +5,8 @@ import '../screens/login_screen.dart';
 import '../screens/register_screen.dart';
 import '../screens/movements_screen.dart';
 import '../screens/change_password_screen.dart';
+import '../screens/reset_password_screen.dart';
+
 
 
 final appRouter = GoRouter(
@@ -22,7 +24,8 @@ final appRouter = GoRouter(
     // Comprueba si el usuario intenta ir a una ruta publica
     final isGoingPublicAuth = state.matchedLocation == '/' ||
       state.matchedLocation == '/login' ||
-      state.matchedLocation == '/register';
+      state.matchedLocation == '/register' ||
+      state.matchedLocation == '/reset-password';
 
     // Si intenta ir a ruta privada sin iniciar sesion, vuelve al login
     if (session == null && isGoingPrivate) {
@@ -56,6 +59,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/movements',
       builder: (context, state) => const MovementsScreen(),
+    ),
+    GoRoute(
+      path: '/reset-password',
+      builder: (context, state) => const ResetPasswordScreen(),
     ),
   ],
 );

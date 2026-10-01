@@ -90,6 +90,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: (val) =>
                     val == null || val.length < 6 ? 'Mínimo 6 caracteres' : null,
               ),
+
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () => context.push('/reset-password'),
+                child: const Text('¿Olvidaste tu contraseña?'),
+              ),
+              
               const SizedBox(height: 24),
               _isLoading
                   ? const CircularProgressIndicator()

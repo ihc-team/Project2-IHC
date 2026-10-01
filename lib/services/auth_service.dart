@@ -42,4 +42,10 @@ class AuthService {
     );
   }
 
+  // Este metodo sirve para solicitar recuperación de contraseña
+  Future<void> resetPasswordForEmail(String email) async {
+    await _supabase.auth.resetPasswordForEmail(email);
+  }
+
+
 }
