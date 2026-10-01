@@ -15,4 +15,23 @@ class AuthService {
       password: password,
     );
   }
+
+  //Este metodo sirve para iniciar sesion
+  Future<AuthResponse> signInWithPassword({
+    required String email,
+    required String password,
+  }) async {
+    return await _supabase.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
+  }
+
+  //Este metodo sirve para cerrar sesion
+  Future<void> signOut() async {
+    await _supabase.auth.signOut();
+  }
+
+  // Obtiene el usuario actual
+  User? get currentUser => _supabase.auth.currentUser;
 }
