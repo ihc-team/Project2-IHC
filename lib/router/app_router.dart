@@ -4,6 +4,8 @@ import '../screens/home_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/register_screen.dart';
 import '../screens/movements_screen.dart';
+import '../screens/change_password_screen.dart';
+
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -14,7 +16,8 @@ final appRouter = GoRouter(
     final session = Supabase.instance.client.auth.currentSession;
 
     // Comprueba si el usuario intenta ir a una ruta privada
-    final isGoingPrivate = state.matchedLocation == '/movements';
+    final isGoingPrivate = state.matchedLocation == '/movements' || state.matchedLocation == '/change-password';
+
 
     // Comprueba si el usuario intenta ir a una ruta publica
     final isGoingPublicAuth = state.matchedLocation == '/' ||
@@ -45,6 +48,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/register',
       builder: (context, state) => const RegisterScreen(),
+    ),
+    GoRoute(
+      path: '/change-password',
+      builder: (context, state) => const ChangePasswordScreen(),
     ),
     GoRoute(
       path: '/movements',

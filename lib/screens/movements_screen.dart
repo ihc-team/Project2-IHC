@@ -51,6 +51,13 @@ class MovementsScreen extends StatelessWidget {
                 style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
 
+              const SizedBox(height: 24),
+
+              OutlinedButton.icon(
+                onPressed: () => context.push('/change-password'),
+                icon: const Icon(Icons.key),
+                label: const Text('Cambiar Contraseña'),
+              ),
             
             ],
           ),
