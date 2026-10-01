@@ -3,16 +3,15 @@ import 'router/app_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Comienza a cargar las variables de entorno
   await dotenv.load(fileName: ".env");
-  
+
   // Iniciamos Supabase usando las variables cargadas
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    publishableKey: dotenv.env['SUPABASE_PUBLISHABLE_KEY']!,
   );
   runApp(const StudShieldApp());
 }
