@@ -3,13 +3,17 @@ import 'router/app_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Comienza a cargar las variables de entorno
+  await dotenv.load(fileName: ".env");
+  
+  // Iniciamos Supabase usando las variables cargadas
   await Supabase.initialize(
-    url: 'https://glgmxspheajpbutpmvxy.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdsZ214c3BoZWFqcGJ1dHBtdnh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MTE3MjYsImV4cCI6MjEwNjM4NzcyNn0.6p3O8nIj62wEWwB2AqrKb248yUuvuSwvX0BdziYfwrk',
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
-
   runApp(const StudShieldApp());
 }
 
