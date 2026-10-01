@@ -1,49 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../services/auth_service.dart';
 
-/// Es una pantalla privada de Movimientos (tendra la ruta /movements)
+// En esta parte de movements (movimientos) es donde el usuario podra ver sus ingresos y gastos
 
-/// Representara el area protegida donde el usuario gestionara sus ingresos y gastos.
 class MovementsScreen extends StatelessWidget {
   const MovementsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authService = AuthService();
+    final user = authService.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mis Movimientos'),
-        centerTitle: true,
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
+        actions: [
+          // Colocar el boton en la parte derecha para cerrar sesión
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Cerrar Sesión',
+            onPressed: () async {
+              await authService.signOut();
+              if (context.mounted) {
+                context.go('/'); // Para redirigir a la portada publica
+              }
+            },
+          ),
+        ],
       ),
-      body: const Center(
+      body: Center(
         child: Padding(
-          padding: EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.lock_outline,
-                size: 64,
-                color: Colors.deepPurple,
+              const Icon(Icons.account_circle, size: 80, color: Colors.deepPurple),
+              const SizedBox(height: 16),
+              const Text(
+                '¡Bienvenido!',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 8),
+
+              // Muestra el correo del usuario autenticado
               Text(
-                'Pantalla Privada de Movimientos',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
+                user?.email ?? 'Correo no disponible',
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
-              SizedBox(height: 8),
-              Text(
-                'Area protegida solo por usuarios autenticados',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                ),
-                textAlign: TextAlign.center,
-              ),
+
+            
             ],
           ),
         ),
