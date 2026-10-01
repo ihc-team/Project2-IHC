@@ -35,11 +35,11 @@ class AuthService {
   // Obtiene el usuario actual
   User? get currentUser => _supabase.auth.currentUser;
 
-  // Método para cambiar la contraseña del usuario autenticado (RF-05)
+  // Este metodo sirve para cambiar la contraseña del usuario autenticado
   Future<UserResponse> updatePassword(String newPassword) async {
     return await _supabase.auth.updateUser(
       UserAttributes(password: newPassword),
     );
-}
+  }
 
 }
