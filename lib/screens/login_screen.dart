@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/auth_service.dart';
+import 'package:presupuesto_estudiantil/design_system/spacing_tokens.dart';
+import 'package:presupuesto_estudiantil/design_system/app_text_style.dart';
+import 'package:presupuesto_estudiantil/design_system/color_styles.dart';
 
 // Pantalla de Login, se mostrara al pulsar Iniciar Sesion
 class LoginScreen extends StatefulWidget {
@@ -71,51 +74,92 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Iniciar Sesión')),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Correo electrónico',
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Correo electronico',
+                    style: AppTextStyle.boldBodyLarge,
+                    textAlign: TextAlign.start,
+                  ),
                 ),
-                validator:
-                    (val) =>
-                        val == null || val.isEmpty ? 'Ingresa tu correo' : null,
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _passwordController,
-                obscureText: _obscureText,
-                decoration: InputDecoration(
-                  labelText: 'Contraseña',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    floatingLabelBehavior:
+                        FloatingLabelBehavior
+                            .never, // para evitar que el placeholder suba arriba del borde
+                    border: OutlineInputBorder(),
+                    hintText: 'ejemplo@gmail.com',
+                  ),
+                  validator:
+                      (val) =>
+                          val == null || val.isEmpty
+                              ? 'Ingresa tu correo'
+                              : null,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Contraseña',
+                    style: AppTextStyle.boldBodyLarge,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: _obscureText,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    hintText: 'password123',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed:
+                          () => setState(() => _obscureText = !_obscureText),
                     ),
-                    onPressed:
-                        () => setState(() => _obscureText = !_obscureText),
+                  ),
+                  validator:
+                      (val) =>
+                          val == null || val.length < 6
+                              ? 'Minimo 6 caracteres'
+                              : null,
+                ),
+
+                TextButton(
+                  onPressed: () => context.push('/reset-password'),
+                  child: Text(
+                    '¿Olvidaste tu contraseña?',
+                    style: AppTextStyle.regularMicro.copyWith(
+                      color: ColorStyles.primaryBase,
+                    ),
                   ),
                 ),
-                validator:
-                    (val) =>
-                        val == null || val.length < 6
-                            ? 'Mínimo 6 caracteres'
-                            : null,
-              ),
 
-              const SizedBox(height: 16),
-              _isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                    onPressed: _handleLogin,
-                    child: const Text('Iniciar Sesión'),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: _handleLogin,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorStyles.primaryBase,
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 52),
                   ),
-            ],
+                  child: const Text(
+                    'Iniciar Sesion',
+                    style: AppTextStyle.boldBodyMedium,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

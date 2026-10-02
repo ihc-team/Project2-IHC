@@ -86,7 +86,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 validator:
                     (val) =>
                         val == null || val.length < 6
-                            ? 'Mínimo 6 caracteres'
+                            ? 'Minimo 6 caracteres'
                             : null,
               ),
               // TextFormField(
@@ -106,7 +106,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               //   validator:
               //       (val) =>
               //           val == null || val.length < 6
-              //               ? 'Mínimo 6 caracteres'
+              //               ? 'Minimo 6 caracteres'
               //               : null,
               // ),
               const SizedBox(height: 24),

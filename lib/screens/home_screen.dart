@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presupuesto_estudiantil/design_system/spacing_tokens.dart';
+import 'package:presupuesto_estudiantil/design_system/app_text_style.dart';
+import 'package:presupuesto_estudiantil/design_system/color_styles.dart';
 import '../env.dart';
 
-// Pantalla de bienvenida, se mostrara al entrar a la aplicacion
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -12,73 +14,75 @@ class HomeScreen extends StatelessWidget {
       //El "SafeArea" ayuda a que el contenido se muestre correctamente en cualquier dispositivo
       //sin tapar ningun elemento importante de la pantalla
       body: SafeArea(
-        // El "Padding" se utiliza para agregar espacio alrededor del contenido
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
 
-          // El "Column" se utiliza para organizar los elementos en una columna vertical
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Mensaje de Bienvenida
-              Text(
-                '¡Bienvenido a tu ${Env.appName}',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 12),
-
-              Image.asset('assets/icons/v1/icon_no_background.png', width: 150),
-
-              const Text(
-                'una aplicacion para Presupuesto Estudiantil!',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
-
-              const Spacer(), // Deja un espacio flexible antes de los botones
-              // Boton 1 Iniciar Sesion
-              ElevatedButton(
-                onPressed: () {
-                  // Navegacion hacia la Pantalla de Login
-                  context.push('/login');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(double.infinity, 52),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              Column(
+                spacing: SpacingTokens.xS,
+                children: [
+                  Text(
+                    '¡Bienvenido a tu ${Env.appName}!',
+                    style: AppTextStyle.boldBodyLarge,
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                child: const Text(
-                  'Iniciar Sesion',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
 
-              const SizedBox(height: 16),
-
-              // Boton 2: Registro
-              OutlinedButton(
-                onPressed: () {
-                  // Navegacion hacia la Pantalla de Registro
-                  context.push('/register');
-                },
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 52),
-                  side: const BorderSide(color: Colors.deepPurple, width: 1.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                  Image.asset(
+                    'assets/icons/v1/icon_no_background.png',
+                    width: 150,
                   ),
-                ),
-                child: const Text(
-                  'Crear una cuenta',
-                  style: TextStyle(fontSize: 16, color: Colors.deepPurple),
-                ),
-              ),
 
-              const SizedBox(height: 32), // Margen inferior de seguridad
+                  Text(
+                    'Una aplicación que te ayuda a llevar tus cuentas estudiantiles',
+                    style: AppTextStyle.regularMicro.copyWith(
+                      color: ColorStyles.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                spacing: SpacingTokens.xS,
+                children: [
+                  // const Spacer(),
+                  //  login
+                  ElevatedButton(
+                    onPressed: () {
+                      context.push('/login');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorStyles.primaryBase,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size(double.infinity, 52),
+                    ),
+                    child: const Text(
+                      'Iniciar Sesion',
+                      style: AppTextStyle.boldBodyMedium,
+                    ),
+                  ),
+
+                  // registro
+                  OutlinedButton(
+                    onPressed: () {
+                      context.push('/register');
+                    },
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 52),
+                      side: const BorderSide(color: Colors.orange, width: 1.5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      'Crear una cuenta',
+                      style: AppTextStyle.boldBodyMedium.copyWith(
+                        color: ColorStyles.primaryBase,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
