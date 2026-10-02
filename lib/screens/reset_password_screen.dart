@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presupuesto_estudiantil/widgets/app_drawer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/auth_service.dart';
 
@@ -60,6 +61,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Recuperar Contraseña')),
+      drawer: AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(

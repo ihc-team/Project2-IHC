@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //El "SafeArea" ayuda a que el contenido se muestre correctamente en cualquier dispositivo
+      //El SafeArea ayuda a que el contenido se muestre correctamente en cualquier dispositivo
       //sin tapar ningun elemento importante de la pantalla
       body: SafeArea(
         child: Padding(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presupuesto_estudiantil/design_system/app_text_style.dart';
+import 'package:presupuesto_estudiantil/design_system/color_styles.dart';
+import 'package:presupuesto_estudiantil/widgets/app_drawer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/auth_service.dart';
 
@@ -61,6 +64,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
       appBar: AppBar(title: const Text('Cambiar Contraseña')),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -69,12 +73,23 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'Ingresa tu nueva contraseña',
+                  style: AppTextStyle.boldBodyLarge,
+                  textAlign: TextAlign.start,
+                ),
+              ),
               TextFormField(
                 controller: _passwordController,
                 obscureText: _showPassword1,
                 decoration: InputDecoration(
-                  labelText: 'Nueva Contraseña',
-                  hintText: 'Ingresa tu nueva clave',
+                  floatingLabelBehavior:
+                      FloatingLabelBehavior
+                          .never, // para evitar que el placeholder suba arriba del borde
+                  border: OutlineInputBorder(),
+                  hintText: 'password123',
                   suffixIcon: IconButton(
                     icon: Icon(
                       _showPassword1 ? Icons.visibility_off : Icons.visibility,
@@ -89,33 +104,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             ? 'Minimo 6 caracteres'
                             : null,
               ),
-              // TextFormField(
-              //   controller: _passwordController,
-              //   obscureText: _showPassword2,
-              //   decoration: InputDecoration(
-              //     labelText: 'Confirmar Contraseña',
-              //     hintText: 'Ingresa la misma contraseña',
-              //     suffixIcon: IconButton(
-              //       icon: Icon(
-              //         _showPassword2 ? Icons.visibility_off : Icons.visibility,
-              //       ),
-              //       onPressed:
-              //           () => setState(() => _showPassword2 = !_showPassword2),
-              //     ),
-              //   ),
-              //   validator:
-              //       (val) =>
-              //           val == null || val.length < 6
-              //               ? 'Minimo 6 caracteres'
-              //               : null,
-              // ),
-              const SizedBox(height: 24),
-              _isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                    onPressed: _handleChangePassword,
-                    child: const Text('Actualizar Contraseña'),
-                  ),
+              ElevatedButton(
+                onPressed: _handleChangePassword,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorStyles.primaryBase,
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 52),
+                ),
+                child: const Text('Actualizar Contraseña'),
+              ),
             ],
           ),
         ),
