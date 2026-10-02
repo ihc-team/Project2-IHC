@@ -109,12 +109,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               const SizedBox(height: 16),
-              TextButton(
-                onPressed: () => context.push('/reset-password'),
-                child: const Text('¿Olvidaste tu contraseña?'),
-              ),
-
-              const SizedBox(height: 24),
               _isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
