@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/auth_service.dart';
-import 'package:presupuesto_estudiantil/design_system/spacing_tokens.dart';
 import 'package:presupuesto_estudiantil/design_system/app_text_style.dart';
 import 'package:presupuesto_estudiantil/design_system/color_styles.dart';
 
@@ -24,7 +23,6 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.list),
             title: const Text('Movimientos'),
             onTap: () {
               Navigator.pop(context); // cierra el drawer
@@ -32,7 +30,6 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.key),
             title: const Text('Cambiar contraseña'),
             onTap: () {
               Navigator.pop(context);
@@ -41,7 +38,6 @@ class AppDrawer extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.logout),
             title: const Text('Cerrar sesión'),
             onTap: () async {
               Navigator.pop(context);

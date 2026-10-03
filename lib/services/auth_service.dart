@@ -1,19 +1,17 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
-  // Aqui hace referencia a la instancia global del cliente de Supabase
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  // Es el metodo para registrar a un nuevo usuario
+  // registrar usuario
   Future<AuthResponse> signUp({
     required String email,
     required String password,
   }) async {
-    // Aqui se envian los datos para el registro
     return await _supabase.auth.signUp(email: email, password: password);
   }
 
-  //Este metodo sirve para iniciar sesion
+  // iniciar sesion
   Future<AuthResponse> signInWithPassword({
     required String email,
     required String password,
@@ -24,23 +22,23 @@ class AuthService {
     );
   }
 
-  //Este metodo sirve para cerrar sesion
+  // cerrar sesión
   Future<void> signOut() async {
     await _supabase.auth.signOut();
   }
 
-  // Obtiene el usuario actual
-  User? get currentUser => _supabase.auth.currentUser;
-
-  // Este metodo sirve para cambiar la contraseña del usuario autenticado
+  // actualizar contraseña
   Future<UserResponse> updatePassword(String newPassword) async {
     return await _supabase.auth.updateUser(
       UserAttributes(password: newPassword),
     );
   }
 
-  // Este metodo sirve para solicitar recuperación de contraseña
+  // recuperar contraseña x correo
   Future<void> resetPasswordForEmail(String email) async {
     await _supabase.auth.resetPasswordForEmail(email);
   }
+
+  // usuario actual
+  User? get currentUser => _supabase.auth.currentUser;
 }

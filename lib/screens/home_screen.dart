@@ -52,8 +52,6 @@ class HomeScreen extends StatelessWidget {
                       context.push('/login');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorStyles.primaryBase,
-                      foregroundColor: Colors.white,
                       minimumSize: const Size(double.infinity, 52),
                     ),
                     child: const Text(
@@ -69,10 +67,6 @@ class HomeScreen extends StatelessWidget {
                     },
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 52),
-                      side: const BorderSide(color: Colors.orange, width: 1.5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
                     ),
                     child: Text(
                       'Crear una cuenta',

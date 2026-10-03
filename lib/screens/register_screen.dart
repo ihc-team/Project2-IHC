@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/auth_service.dart';
-import 'package:presupuesto_estudiantil/design_system/spacing_tokens.dart';
 import 'package:presupuesto_estudiantil/design_system/app_text_style.dart';
-import 'package:presupuesto_estudiantil/design_system/color_styles.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -13,17 +12,14 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formularioId = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _authService = AuthService();
-  bool _isLoading = false;
-  bool _showPassword = false;
+  bool _mostrarPassword = false;
 
   Future<void> _handleRegister() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() => _isLoading = true);
+    if (!_formularioId.currentState!.validate()) return;
 
     try {
       await _authService.signUp(
@@ -32,18 +28,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('¡Cuenta creada exitosamente!')),
-        );
+        context.go('/movements');
       }
-    } on AuthException catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message), backgroundColor: Colors.red),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
+    } catch (_) {
+      _emailController.text = "";
+      _passwordController.text = "";
     }
   }
 
@@ -62,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Form(
-            key: _formKey,
+            key: _formularioId,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -77,10 +66,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
-                    floatingLabelBehavior:
-                        FloatingLabelBehavior
-                            .never, // para evitar que el placeholder suba arriba del borde
-                    border: OutlineInputBorder(),
                     hintText: 'ejemplo@gmail.com',
                   ),
                   validator:
@@ -99,32 +84,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 TextFormField(
                   controller: _passwordController,
-                  obscureText: _showPassword,
+                  obscureText: _mostrarPassword,
                   decoration: InputDecoration(
-                    floatingLabelBehavior:
-                        FloatingLabelBehavior
-                            .never, // para evitar que el placeholder suba arriba del borde
-                    border: OutlineInputBorder(),
                     hintText: 'password123',
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _showPassword ? Icons.visibility_off : Icons.visibility,
+                        _mostrarPassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                       ),
                       onPressed:
-                          () => setState(() => _showPassword = !_showPassword),
+                          () => setState(
+                            () => _mostrarPassword = !_mostrarPassword,
+                          ),
                     ),
                   ),
-                  validator:
-                      (val) =>
-                          val == null || val.length < 6
-                              ? 'Minimo 6 caracteres'
-                              : null,
+                  validator: (texto) {
+                    return (texto == null || texto.length < 6)
+                        ? 'Minimo 6 caracteres'
+                        : null;
+                  },
                 ),
                 ElevatedButton(
                   onPressed: _handleRegister,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorStyles.primaryBase,
-                    foregroundColor: Colors.white,
                     minimumSize: const Size(double.infinity, 52),
                   ),
                   child: const Text(
