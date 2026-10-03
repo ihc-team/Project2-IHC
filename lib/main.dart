@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presupuesto_estudiantil/theme/app_theme.dart';
 import 'router/app_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'env.dart';
@@ -24,6 +25,7 @@ class StudShieldApp extends StatelessWidget {
       routerConfig: appRouter, // <--- Conecta nuestro mapa de rutas
       title: Env.appName,
       debugShowCheckedModeBanner: false,
+      theme: appTheme,
     );
   }
 }
