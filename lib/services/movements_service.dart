@@ -11,10 +11,13 @@ class MovementsService {
         .from('movimientos')
         .select()
         .eq('user_id', user.id)
-        .order('fecha', ascending: false);
+        .order('fecha', ascending: true)
+        .order('created_at', ascending: true);
 
     return List<Map<String, dynamic>>.from(data);
   }
+
+  final String _estadoInicial = 'pendiente';
 
   Future<void> create({
     required String tipo,
@@ -30,11 +33,16 @@ class MovementsService {
       'tipo': tipo,
       'monto': monto,
       'categoria': categoria,
+      'estado': _estadoInicial,
       'fecha': fecha.toIso8601String().split('T').first,
     });
   }
 
   Future<void> delete(String id) async {
     await _db.from('movimientos').delete().eq('id', id);
+  }
+
+  Future<void> cambiarEstado(String id, String nuevoEstado) async {
+    await _db.from('movimientos').update({'estado': nuevoEstado}).eq('id', id);
   }
 }

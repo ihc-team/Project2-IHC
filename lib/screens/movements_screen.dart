@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presupuesto_estudiantil/utils/estado_movimiento.dart';
 import 'package:presupuesto_estudiantil/widgets/app_drawer.dart';
 import '../services/movements_service.dart';
 
@@ -62,23 +63,42 @@ class _MovementsScreenState extends State<MovementsScreen> {
     } catch (_) {}
   }
 
+  final meses = [
+    'enero',
+    'febrero',
+    'marzo',
+    'abril',
+    'mayo',
+    'junio',
+    'julio',
+    'agosto',
+    'septiembre',
+    'octubre',
+    'noviembre',
+    'diciembre',
+  ];
+
   String _fechaTexto(String iso) {
-    final meses = [
-      'enero',
-      'febrero',
-      'marzo',
-      'abril',
-      'mayo',
-      'junio',
-      'julio',
-      'agosto',
-      'septiembre',
-      'octubre',
-      'noviembre',
-      'diciembre',
-    ];
     final d = DateTime.parse(iso);
     return '${d.day} de ${meses[d.month - 1]}';
+  }
+
+  Future<void> _cambiarEstado(Map<String, dynamic> m) async {
+    final actual = m['estado'];
+    final siguiente = siguienteEstado(actual);
+    if (siguiente == null) return;
+    await _service.cambiarEstado(m['id'], siguiente);
+    _load();
+  }
+
+  final Map<String, Color> _estadoXColor = {
+    'pendiente': Colors.blue,
+    'confirmado': Colors.green,
+    'cancelado': Colors.red,
+  };
+
+  Color escoger(String entrada) {
+    return _estadoXColor[entrada]!;
   }
 
   @override
@@ -100,9 +120,29 @@ class _MovementsScreenState extends State<MovementsScreen> {
 
                   return ListTile(
                     title: Text('$etiqueta - $monto Bs - $categoria - $fecha'),
-                    trailing: ElevatedButton(
-                      onPressed: () => _delete(m['id'] as String),
-                      child: const Text('Borrar'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        OutlinedButton(
+                          onPressed: () => _cambiarEstado(m),
+                          style: ButtonStyle(
+                            foregroundColor: WidgetStatePropertyAll<Color>(
+                              escoger(m['estado']),
+                            ),
+                            side: WidgetStatePropertyAll(
+                              BorderSide(
+                                color: escoger(m['estado']),
+                                width: 1.5,
+                              ),
+                            ),
+                          ),
+                          child: Text('${m['estado']}'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => _delete(m['id'] as String),
+                          child: const Text('Borrar'),
+                        ),
+                      ],
                     ),
                   );
                 }),
