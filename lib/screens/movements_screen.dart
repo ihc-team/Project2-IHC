@@ -187,6 +187,37 @@ class _MovementsScreenState extends State<MovementsScreen> {
                       width: double.infinity,
                       child: Column(
                         children: [
+                          // Si _editingId NO es nulo, mostramos este aviso:
+                          if (_editingId != null) ...[
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Edita este movimiento',
+                                    style: TextStyle(
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _editingId = null;
+                                        _montoController.clear();
+                                      });
+                                    },
+                                    child: const Text('Cancelar'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                          ],
+
                           SizedBox(
                             width: double.infinity,
                             child: Wrap(
