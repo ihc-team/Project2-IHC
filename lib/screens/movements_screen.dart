@@ -20,6 +20,7 @@ class _MovementsScreenState extends State<MovementsScreen> {
   DateTime _fecha = DateTime.now();
   List<Map<String, dynamic>> _movimientos = [];
   String? _editingId;
+  String? _editingState;
 
   @override
   void initState() {
@@ -61,6 +62,7 @@ class _MovementsScreenState extends State<MovementsScreen> {
           fecha: _fecha,
         );
         _editingId = null;
+        _editingState = null;
       }
 
       if (mounted) {
@@ -88,6 +90,7 @@ class _MovementsScreenState extends State<MovementsScreen> {
       _tipo = m['tipo'] as String;
       _categoria = m['categoria'] as String;
       _fecha = DateTime.parse(m['fecha'] as String);
+      _editingState = m['estado'] as String;
     });
   }
 
@@ -235,6 +238,7 @@ class _MovementsScreenState extends State<MovementsScreen> {
                                     onPressed: () {
                                       setState(() {
                                         _editingId = null;
+                                        _editingState = null;
                                         _montoController.clear();
                                       });
                                     },
@@ -321,6 +325,10 @@ class _MovementsScreenState extends State<MovementsScreen> {
                             ),
                           ),
                           TextFormField(
+                            enabled: puedeEditarMonto(
+                              _editingState ?? 'pendiente',
+                            ),
+
                             controller: _montoController,
                             decoration: InputDecoration(hintText: 'Monto (Bs)'),
                             validator: (texto) {
@@ -337,6 +345,17 @@ class _MovementsScreenState extends State<MovementsScreen> {
                               return null;
                             },
                           ),
+
+                          if (!puedeEditarMonto(
+                            _editingState ?? 'pendiente',
+                          )) ...[
+                            const SizedBox(height: 4),
+                            const Text(
+                              'No es posible modificar el monto porque el movimiento ya fue pagado',
+                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            ),
+                          ],
+
                           ElevatedButton(
                             onPressed: _save,
                             style: ElevatedButton.styleFrom(

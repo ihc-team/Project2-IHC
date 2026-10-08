@@ -11,3 +11,7 @@ String? siguienteEstado(String estadoActual) {
 bool esTransicionValida(String actual, String nuevo) {
   return siguienteEstado(actual) == nuevo;
 }
+
+bool puedeEditarMonto(String estado) {
+  return estado != 'pagado';
+}
