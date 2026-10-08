@@ -93,7 +93,7 @@ class _MovementsScreenState extends State<MovementsScreen> {
 
   final Map<String, Color> _estadoXColor = {
     'pendiente': Colors.blue,
-    'confirmado': Colors.green,
+    'pagado': Colors.green,
     'cancelado': Colors.red,
   };
 

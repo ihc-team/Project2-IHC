@@ -8,13 +8,13 @@ void main() {
   });
 
   test('la acción hace la transicion esperada', () {
-    expect(siguienteEstado('pendiente'), 'confirmado');
-    expect(siguienteEstado('confirmado'), 'cancelado');
+    expect(siguienteEstado('pendiente'), 'pagado');
+    expect(siguienteEstado('pagado'), 'cancelado');
   });
 
   test('transicion invalida es rechazada', () {
     expect(siguienteEstado('cancelado'), null);
-    expect(esTransicionValida('cancelado', 'confirmado'), false);
+    expect(esTransicionValida('cancelado', 'pagado'), false);
     expect(esTransicionValida('pendiente', 'cancelado'), false);
   });
 
@@ -37,6 +37,6 @@ void main() {
     expect(copia['monto'], 25.0);
     expect(copia['categoria'], 'Transporte');
     expect(copia['fecha'], '2025-10-01');
-    expect(copia['estado'], 'confirmado');
+    expect(copia['estado'], 'pagado');
   });
 }
