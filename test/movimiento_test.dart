@@ -39,4 +39,13 @@ void main() {
     expect(copia['fecha'], '2025-10-01');
     expect(copia['estado'], 'pagado');
   });
+
+  test('no se puede editar el monto del movimiento si el estado es pagado', () {
+    // En estado pendiente o cancelado, el monto SÍ se puede editar:
+    expect(puedeEditarMonto('pendiente'), true);
+    expect(puedeEditarMonto('cancelado'), true);
+
+    // En estado pagado, el monto NO se puede editar (restricción de negocio):
+    expect(puedeEditarMonto('pagado'), false);
+  });
 }
