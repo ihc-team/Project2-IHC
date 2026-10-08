@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:presupuesto_estudiantil/global/initial_route.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'; // <--- Importante
 import '../screens/home_screen.dart';
 import '../screens/login_screen.dart';
@@ -7,47 +8,23 @@ import '../screens/movements_screen.dart';
 import '../screens/change_password_screen.dart';
 import '../screens/reset_password_screen.dart';
 
-
+final privateRoutes = ['/movements', '/ change-password'];
+final publicRoutes = ['/', '/login', '/register', '/reset-password'];
 
 final appRouter = GoRouter(
-  initialLocation: '/',
-
-  // Esto sirve para redirigir al usuario a la ruta que intenta acceder si no tiene sesion
+  initialLocation: initialRoute,
   redirect: (context, state) {
-    // Verifica si hay sesion activa en Supabase
-    final session = Supabase.instance.client.auth.currentSession;
+    final sesion = Supabase.instance.client.auth.currentSession;
+    String sigRuta = state.matchedLocation;
 
-    // Comprueba si el usuario intenta ir a una ruta privada
-    final isGoingPrivate = state.matchedLocation == '/movements' || state.matchedLocation == '/change-password';
-
-
-    // Comprueba si el usuario intenta ir a una ruta publica
-    final isGoingPublicAuth = state.matchedLocation == '/' ||
-      state.matchedLocation == '/login' ||
-      state.matchedLocation == '/register' ||
-      state.matchedLocation == '/reset-password';
-
-    // Si intenta ir a ruta privada sin iniciar sesion, vuelve al login
-    if (session == null && isGoingPrivate) {
+    if (sesion == null && privateRoutes.contains(sigRuta)) {
       return '/login';
     }
-
-    // Si intenta ir a ruta publica con sesion iniciada, vuelve a movimientos
-    if (session != null && isGoingPublicAuth) {
-      return '/movements';
-    }
-
-    return null; 
+    return null;
   },
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const HomeScreen(),
-    ),
-    GoRoute(
-      path: '/login',
-      builder: (context, state) => const LoginScreen(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
+    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
     GoRoute(
       path: '/register',
       builder: (context, state) => const RegisterScreen(),
