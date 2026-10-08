@@ -19,6 +19,7 @@ class _MovementsScreenState extends State<MovementsScreen> {
   String _categoria = 'Transporte';
   DateTime _fecha = DateTime.now();
   List<Map<String, dynamic>> _movimientos = [];
+  String? _editingId;
 
   @override
   void initState() {
@@ -61,6 +62,16 @@ class _MovementsScreenState extends State<MovementsScreen> {
         _load();
       }
     } catch (_) {}
+  }
+
+  Future<void> _prepareEdition(Map<String, dynamic> m) async {
+    setState(() {
+      _editingId = m['id'] as String;
+      _montoController.text = m['monto'].toString();
+      _tipo = m['tipo'] as String;
+      _categoria = m['categoria'] as String;
+      _fecha = DateTime.parse(m['fecha'] as String);
+    });
   }
 
   final meses = [
@@ -141,6 +152,11 @@ class _MovementsScreenState extends State<MovementsScreen> {
                         ElevatedButton(
                           onPressed: () => _delete(m['id'] as String),
                           child: const Text('Borrar'),
+                        ),
+
+                        TextButton(
+                          onPressed: () => _prepareEdition(m),
+                          child: const Text('Editar'),
                         ),
                       ],
                     ),
