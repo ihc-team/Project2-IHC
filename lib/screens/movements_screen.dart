@@ -41,17 +41,34 @@ class _MovementsScreenState extends State<MovementsScreen> {
   Future<void> _save() async {
     if (!_formularioId.currentState!.validate()) return;
     final monto = double.tryParse(_montoController.text) ?? 0;
+
     try {
-      await _service.create(
-        tipo: _tipo,
-        monto: monto,
-        categoria: _categoria,
-        fecha: _fecha,
-      );
+      if (_editingId == null) {
+        //Se esta creando un uno
+        await _service.create(
+          tipo: _tipo,
+          monto: monto,
+          categoria: _categoria,
+          fecha: _fecha,
+        );
+      } else {
+        // Se esta editando uno movimiento existente
+        await _service.update(
+          id: _editingId!,
+          tipo: _tipo,
+          monto: monto,
+          categoria: _categoria,
+          fecha: _fecha,
+        );
+        _editingId = null;
+      }
+
       if (mounted) {
+        // Se vuevle a cargar la lista
         _load();
       }
     } catch (_) {}
+
     _montoController.text = "";
   }
 
