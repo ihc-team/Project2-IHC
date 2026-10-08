@@ -1,8 +1,8 @@
 String? siguienteEstado(String estadoActual) {
   if (estadoActual == 'pendiente') {
-    return 'confirmado';
+    return 'pagado';
   }
-  if (estadoActual == 'confirmado') {
+  if (estadoActual == 'pagado') {
     return 'cancelado';
   }
   return null;

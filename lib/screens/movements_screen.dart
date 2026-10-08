@@ -19,6 +19,7 @@ class _MovementsScreenState extends State<MovementsScreen> {
   String _categoria = 'Transporte';
   DateTime _fecha = DateTime.now();
   List<Map<String, dynamic>> _movimientos = [];
+  String? _editingId;
 
   @override
   void initState() {
@@ -40,17 +41,34 @@ class _MovementsScreenState extends State<MovementsScreen> {
   Future<void> _save() async {
     if (!_formularioId.currentState!.validate()) return;
     final monto = double.tryParse(_montoController.text) ?? 0;
+
     try {
-      await _service.create(
-        tipo: _tipo,
-        monto: monto,
-        categoria: _categoria,
-        fecha: _fecha,
-      );
+      if (_editingId == null) {
+        //Se esta creando un uno
+        await _service.create(
+          tipo: _tipo,
+          monto: monto,
+          categoria: _categoria,
+          fecha: _fecha,
+        );
+      } else {
+        // Se esta editando uno movimiento existente
+        await _service.update(
+          id: _editingId!,
+          tipo: _tipo,
+          monto: monto,
+          categoria: _categoria,
+          fecha: _fecha,
+        );
+        _editingId = null;
+      }
+
       if (mounted) {
+        // Se vuevle a cargar la lista
         _load();
       }
     } catch (_) {}
+
     _montoController.text = "";
   }
 
@@ -61,6 +79,44 @@ class _MovementsScreenState extends State<MovementsScreen> {
         _load();
       }
     } catch (_) {}
+  }
+
+  Future<void> _prepareEdition(Map<String, dynamic> m) async {
+    setState(() {
+      _editingId = m['id'] as String;
+      _montoController.text = m['monto'].toString();
+      _tipo = m['tipo'] as String;
+      _categoria = m['categoria'] as String;
+      _fecha = DateTime.parse(m['fecha'] as String);
+    });
+  }
+
+  Future<void> _confirmDeletion(String id) async {
+    final responder = await showDialog<bool>(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Confirma que quieres eliminar este movimiento'),
+            content: const Text(
+              '¿Estas seguro que quieres eliminar este movimiento?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Cancelar'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text('Eliminar'),
+              ),
+            ],
+          ),
+    );
+
+    // Si eligió "Eliminar" (true), procedemos con el borrado en Supabase
+    if (responder == true) {
+      _delete(id);
+    }
   }
 
   final meses = [
@@ -93,7 +149,7 @@ class _MovementsScreenState extends State<MovementsScreen> {
 
   final Map<String, Color> _estadoXColor = {
     'pendiente': Colors.blue,
-    'confirmado': Colors.green,
+    'pagado': Colors.green,
     'cancelado': Colors.red,
   };
 
@@ -139,8 +195,13 @@ class _MovementsScreenState extends State<MovementsScreen> {
                           child: Text('${m['estado']}'),
                         ),
                         ElevatedButton(
-                          onPressed: () => _delete(m['id'] as String),
+                          onPressed: () => _confirmDeletion(m['id'] as String),
                           child: const Text('Borrar'),
+                        ),
+
+                        TextButton(
+                          onPressed: () => _prepareEdition(m),
+                          child: const Text('Editar'),
                         ),
                       ],
                     ),
@@ -154,6 +215,37 @@ class _MovementsScreenState extends State<MovementsScreen> {
                       width: double.infinity,
                       child: Column(
                         children: [
+                          // Si _editingId NO es nulo, mostramos este aviso:
+                          if (_editingId != null) ...[
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Edita este movimiento',
+                                    style: TextStyle(
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _editingId = null;
+                                        _montoController.clear();
+                                      });
+                                    },
+                                    child: const Text('Cancelar'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                          ],
+
                           SizedBox(
                             width: double.infinity,
                             child: Wrap(

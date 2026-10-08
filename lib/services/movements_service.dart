@@ -45,4 +45,22 @@ class MovementsService {
   Future<void> cambiarEstado(String id, String nuevoEstado) async {
     await _db.from('movimientos').update({'estado': nuevoEstado}).eq('id', id);
   }
+
+  Future<void> update({
+    required String id,
+    required String tipo,
+    required double monto,
+    required String categoria,
+    required DateTime fecha,
+  }) async {
+    await _db
+        .from('movimientos')
+        .update({
+          'tipo': tipo,
+          'monto': monto,
+          'categoria': categoria,
+          'fecha': fecha.toIso8601String().split('T').first,
+        })
+        .eq('id', id);
+  }
 }
