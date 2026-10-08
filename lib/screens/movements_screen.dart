@@ -91,6 +91,34 @@ class _MovementsScreenState extends State<MovementsScreen> {
     });
   }
 
+  Future<void> _confirmDeletion(String id) async {
+    final responder = await showDialog<bool>(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Confirma que quieres eliminar este movimiento'),
+            content: const Text(
+              '¿Estas seguro que quieres eliminar este movimiento?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Cancelar'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text('Eliminar'),
+              ),
+            ],
+          ),
+    );
+
+    // Si eligió "Eliminar" (true), procedemos con el borrado en Supabase
+    if (responder == true) {
+      _delete(id);
+    }
+  }
+
   final meses = [
     'enero',
     'febrero',
@@ -167,7 +195,7 @@ class _MovementsScreenState extends State<MovementsScreen> {
                           child: Text('${m['estado']}'),
                         ),
                         ElevatedButton(
-                          onPressed: () => _delete(m['id'] as String),
+                          onPressed: () => _confirmDeletion(m['id'] as String),
                           child: const Text('Borrar'),
                         ),
 
